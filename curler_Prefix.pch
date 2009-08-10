@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'curler' target in the 'curler' project.
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
