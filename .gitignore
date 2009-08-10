@@ -1,0 +1,21 @@
+# xcode noise
+build/*
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+
+# temp nibs and swap files
+*.swp
+*~.nib
+
+# textmate build errors
+*.tm_build_errors
+
+# osx noise
+.DS_Store
+profile
+
+# js min
+html/js/weaverbox-min.js
