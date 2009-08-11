@@ -219,57 +219,60 @@
 
 // Get the directory contents
 - (void)refreshDirectoryContent {
+	// Only try to refresh the directory contents if curl is connected
+	if([self isConnected]) {
 	
-	// The result to return
-	/*NSMutableArray *result = [NSMutableArray array];
-	 
-	 // The response for the connection
-	 CURLcode response;
-	 
-	 // Clear the data
-	 [wfm_data setData:[NSData data]];
-	 
-	 // Create the command list
-	 struct curl_slist *commands = nil;
-	 
-	 // Add the command to list the current directory contents
-	 commands = curl_slist_append(commands, "NLST");
-	 
-	 // Assign the commands to the curl object
-	 curl_easy_setopt(curl, CURLOPT_QUOTE, commands);
-	 
-	 //
-	 // Set the callbacks
-	 //
-	 
-	 // The callback to call when there is data to be written
-	 curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, _curlResponseHandler);
-	 
-	 // The pointer to pass to the callback
-	 curl_easy_setopt(curl, CURLOPT_WRITEDATA, &wfm_data);
-	 
-	 // Try to perform the command
-	 response = curl_easy_perform(curl);
-	 
-	 // If we can notify the delegate of the error
-	 if(response != CURLE_OK && [delegate respondsToSelector:@selector(didReceiveErrorFromHost:withResponse:)]) {
-	 
-	 // The string of the response
-	 NSString *str_response = [NSString stringWithFormat:@"%s", curl_easy_strerror(response)];
-	 
-	 // Then perform the notification
-	 [delegate didReceiveErrorFromHost:[url host] 
-	 withResponse:[NSError errorWithDomain:[url absoluteString]
-	 code:response
-	 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:str_response, @"CURL_RESPONSE", nil]]];
-	 }
-	 
-	 // Clean up the commands
-	 curl_slist_free_all(commands);
-	 commands = nil;*/
+		// The response for the connection
+		CURLcode response;
 	
-	// Return the result
-	//return result;
+		// The data
+		NSMutableData *data = [NSMutableData data];
+	
+		// Create the command list
+		struct curl_slist *commands = nil;
+	
+		// Add the command to list the current directory contents
+		commands = curl_slist_append(commands, "");
+	
+		// Assign the commands to the curl object
+		curl_easy_setopt(curl, CURLOPT_PREQUOTE, commands);
+	
+		//
+		// Set the callbacks
+		//
+	
+		// The callback to call when there is data to be written
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, _curlResponseHandler);
+	
+		// The pointer to pass to the callback
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, data);
+
+		// Try to perform the command
+		response = curl_easy_perform(curl);
+
+		// If we can notify the delegate of the error
+		if(response != CURLE_OK && [delegate respondsToSelector:@selector(didReceiveErrorFromHost:withResponse:)]) {
+		
+			// The string of the response
+			NSString *str_response = [NSString stringWithFormat:@"%s", curl_easy_strerror(response)];
+		
+			// Then perform the notification
+			[delegate didReceiveErrorFromHost:[url host] 
+								 withResponse:[NSError errorWithDomain:[url absoluteString]
+																  code:response
+															  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:str_response, @"CURL_RESPONSE", nil]]];
+		} else {
+		
+			// Parse the data from the response
+		
+			// Set the directory contents
+			[self setDirectoryContent:[self parseDirectoryData:data]];
+		}
+	
+		// Clean up the commands
+		curl_slist_free_all(commands);
+		commands = nil;
+	}
 }
 
 #pragma mark - Utility methods
