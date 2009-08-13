@@ -198,6 +198,9 @@
 	// If the connection was successful
 	if([[response objectForKey:@"error"] code] == CURLE_OK) {
 		
+		// Update the url
+		[self setUrl:newURL];
+		
 		// Parse the data from the response
 		NSData *data = [response objectForKey:@"data"];
 		
