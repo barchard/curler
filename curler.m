@@ -159,6 +159,7 @@
 		
 		// Clean up the connection
 		curl_easy_cleanup(curl);
+		curl = nil;
 		
 		// If we can notify the delegate of the response
 		if([delegate respondsToSelector:@selector(didDisconnectFromHost:)]) {
