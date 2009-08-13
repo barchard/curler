@@ -78,6 +78,9 @@
 // Refresh the directory contents
 - (void)refreshDirectoryContent;
 
+// Change the url on the connection
+- (void)setRelativePath:(NSString *)dir;
+
 #pragma mark - Utility methods
 // Parse directory data 
 - (NSArray *)parseDirectoryData:(NSData *)data;

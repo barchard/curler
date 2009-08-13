@@ -186,14 +186,8 @@
 // Change the url on the connection
 - (void)setRelativePath:(NSString *)dir {
 	
-	// NSLog(@"relative string = %@", [url relativeString]);
-	// NSLog(@"absolute string = %@", [url absoluteString]);
-	// NSLog(@"path = %@", [url path]);
-	// NSLog(@"base = %@", [url baseURL]);
-	
+	// Construct the new url to access
 	NSURL *newURL = [NSURL URLWithString:dir relativeToURL:url];
-	// NSLog(@"new url = %@", newURL);
-	// NSLog(@"new url path = %@", [newURL path]);
 	
 	// Try to connect to the server
 	NSDictionary *response = [self _connectToURL:newURL 
