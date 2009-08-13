@@ -39,4 +39,7 @@
 
 // Called when an error occurs
 - (void)didReceiveErrorFromHost:(NSString *)host withResponse:(NSError *)error;
+
+// Called when the connection changes directory
+- (void)didChangeDirectory:(NSString *)dir onHost:(NSString *)host;
 @end

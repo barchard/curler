@@ -30,8 +30,10 @@
 
 #import "curler.h"
 
+//#define CURLER_DEBUG
 
 @implementation curler
+
 // Synthesize the properties
 @synthesize delegate;
 @synthesize username;
@@ -98,14 +100,14 @@
 	[username release];
 	[password release];
 	[directoryContent release];
-	
+		
 	// Call the super class' implementation
 	[super dealloc];
 }
 
 // Clean up
 - (void)finalize {
-	
+		
 	// If the connection is still active
 	if([self isConnected]) {
 		
@@ -118,7 +120,7 @@
 	[username release];
 	[password release];
 	[directoryContent release];
-	
+		
 	// Call the super class' implementation
 	[super finalize];
 }
@@ -126,57 +128,19 @@
 // Connect to the host
 - (void)connect {
 	
-	// Init the connection
-	curl = curl_easy_init();
-	
-	// The response for the connection
-	CURLcode response;
-	
-	// The data from the response
-	NSMutableData *data = [NSMutableData data];
-	
-	//
-	// Set the connection options
-	//
-	
-	// Set the  url
-	curl_easy_setopt(curl, CURLOPT_URL, [[url absoluteString] UTF8String]);
-	
-	// Set the username and password
-	if([url user] == nil || [url password] == nil) {
+	// Try to connect to the server
+	NSDictionary *response = [self _connectToURL:url 
+								   	withUsername:username 
+									 andPassword:password];
+									
+	// If the connection was successful
+	if([[response objectForKey:@"error"] code] == CURLE_OK) {
 		
-		// Format the username and password
-		NSString *tmp = [NSString stringWithFormat:@"%@:%@", username, password];
+		// Parse the data from the response
+		NSData *data = [response objectForKey:@"data"];
 		
-		// Update the curl
-		curl_easy_setopt(curl, CURLOPT_USERPWD, [tmp UTF8String]);
-	}
-	
-	//
-	// Set the callbacks
-	//
-	
-	// The callback to call when there is data to be written
-	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, _curlResponseHandler);
-	
-	// The pointer to pass to the callback
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA, data);
-	
-	// Try to perform the connection
-	response = curl_easy_perform(curl);
-	
-	// If we can notify the delegate of the error
-	if(response != CURLE_OK && [delegate respondsToSelector:@selector(didReceiveErrorFromHost:withResponse:)]) {
-		
-		// The string of the response
-		NSString *str_response = [NSString stringWithFormat:@"%s", curl_easy_strerror(response)];
-		
-		// Then perform the notification
-		[delegate didReceiveErrorFromHost:[url host] 
-							 withResponse:[NSError errorWithDomain:[url absoluteString]
-															  code:response
-														  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:str_response, @"CURL_RESPONSE", nil]]];
-	} else {
+		// Set the directory contents
+		[self setDirectoryContent:[self parseDirectoryData:data]];
 		
 		// If we can notify the delegate of the response
 		if([delegate respondsToSelector:@selector(didConnectToHost:)]) {
@@ -184,11 +148,6 @@
 			// Then perform the notification
 			[delegate didConnectToHost:[url host]];
 		}
-		
-		// Parse the data from the response
-		
-		// Set the directory contents
-		[self setDirectoryContent:[self parseDirectoryData:data]];
 	}
 }
 
@@ -203,7 +162,7 @@
 		
 		// If we can notify the delegate of the response
 		if([delegate respondsToSelector:@selector(didDisconnectFromHost:)]) {
-			
+
 			// Then perform the notification
 			[delegate didDisconnectFromHost:[url host]];
 		}
@@ -219,60 +178,51 @@
 
 // Get the directory contents
 - (void)refreshDirectoryContent {
-	// Only try to refresh the directory contents if curl is connected
-	if([self isConnected]) {
 	
-		// The response for the connection
-		CURLcode response;
-	
-		// The data
-		NSMutableData *data = [NSMutableData data];
-	
-		// Create the command list
-		struct curl_slist *commands = nil;
-	
-		// Add the command to list the current directory contents
-		commands = curl_slist_append(commands, "");
-	
-		// Assign the commands to the curl object
-		curl_easy_setopt(curl, CURLOPT_PREQUOTE, commands);
-	
-		//
-		// Set the callbacks
-		//
-	
-		// The callback to call when there is data to be written
-		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, _curlResponseHandler);
-	
-		// The pointer to pass to the callback
-		curl_easy_setopt(curl, CURLOPT_WRITEDATA, data);
+	// This is the same as trying to reconnect
+	[self connect];
+}
 
-		// Try to perform the command
-		response = curl_easy_perform(curl);
-
-		// If we can notify the delegate of the error
-		if(response != CURLE_OK && [delegate respondsToSelector:@selector(didReceiveErrorFromHost:withResponse:)]) {
+// Change the url on the connection
+- (void)setRelativePath:(NSString *)dir {
+	
+	// NSLog(@"relative string = %@", [url relativeString]);
+	// NSLog(@"absolute string = %@", [url absoluteString]);
+	// NSLog(@"path = %@", [url path]);
+	// NSLog(@"base = %@", [url baseURL]);
+	
+	NSURL *newURL = [NSURL URLWithString:dir relativeToURL:url];
+	// NSLog(@"new url = %@", newURL);
+	// NSLog(@"new url path = %@", [newURL path]);
+	
+	// Try to connect to the server
+	NSDictionary *response = [self _connectToURL:newURL 
+								   	withUsername:username 
+									 andPassword:password];
+									
+	// If the connection was successful
+	if([[response objectForKey:@"error"] code] == CURLE_OK) {
 		
-			// The string of the response
-			NSString *str_response = [NSString stringWithFormat:@"%s", curl_easy_strerror(response)];
+		// Parse the data from the response
+		NSData *data = [response objectForKey:@"data"];
 		
+		// Set the directory contents
+		[self setDirectoryContent:[self parseDirectoryData:data]];
+				
+		// If we can notify the delegate of the response
+		if([delegate respondsToSelector:@selector(didChangeDirectory:onHost:)]) {
+			
 			// Then perform the notification
-			[delegate didReceiveErrorFromHost:[url host] 
-								 withResponse:[NSError errorWithDomain:[url absoluteString]
-																  code:response
-															  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:str_response, @"CURL_RESPONSE", nil]]];
-		} else {
-		
-			// Parse the data from the response
-		
-			// Set the directory contents
-			[self setDirectoryContent:[self parseDirectoryData:data]];
+			[delegate didChangeDirectory:dir onHost:[url host]];
 		}
-	
-		// Clean up the commands
-		curl_slist_free_all(commands);
-		commands = nil;
 	}
+}
+
+// Get the present working directory
+- (NSString *)pwd {
+	
+	// Return the absolute string of the url
+	return [url absoluteString];
 }
 
 #pragma mark - Utility methods
@@ -301,7 +251,7 @@
 	
 	// First break the string up into individual items
 	NSArray *items = [self seperateStringWithNewlines:str];
-	
+		
 	// Loop over each entry 
 	for(NSString *item in items) {
 		
@@ -313,7 +263,7 @@
 		}
 		
 	}
-	
+			
 	// Return the result
 	return result;
 }
@@ -348,13 +298,13 @@
 		// It is a file
 		[result setObject:@"file" forKey:@"typeString"];
 		[result setObject:[NSNumber numberWithInt:0] forKey:@"typeNumber"];
-		
+	
 	} else if([type isEqualToString:@"d"]) {
 		
 		// It is a directory
 		[result setObject:@"directory" forKey:@"typeString"];
 		[result setObject:[NSNumber numberWithInt:1] forKey:@"typeNumber"];
-		
+	
 	} else {
 		
 		// It is a symlink
@@ -395,10 +345,10 @@
 	NSMutableString *date_string = [NSMutableString string];
 	[scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:&tmp];
 	[date_string appendString:tmp];
-	
+
 	[scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:&tmp];
 	[date_string appendFormat:@" %@", tmp];
-	
+
 	[scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:&tmp];
 	[date_string appendFormat:@" %@", tmp];
 	
@@ -413,11 +363,11 @@
 		[scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:&tmp];
 		[scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:&tmp];
 	}
-	
+		
 	// Scan the rest of the characters until the newline
 	[scanner scanUpToCharactersFromSet:[NSCharacterSet newlineCharacterSet] intoString:&tmp];
 	[result setObject:tmp forKey:@"name"];
-	
+		
 	// Return the result
 	return result;
 }
@@ -484,5 +434,146 @@ size_t _curlResponseHandler(void *buffer, size_t size, size_t nmemb, void *strea
 	
 	// Return the number of bytes processed = num of bytes * size of a byte
 	return size*nmemb;
+}
+
+// Handler for curl debugger
+int _curlDebugHandler(CURL *handle, curl_infotype type, char *data, size_t size, void *userp) {
+	
+	NSString *config = (NSString *)userp;
+	NSString *text;
+	NSString *debug_data = [NSString stringWithUTF8String:data];
+	(void)handle; /* prevent compiler warning */
+	
+	switch (type) {
+		
+		case CURLINFO_TEXT: {
+			NSLog(@"== Info: %@", debug_data);
+			default: /* in case a new one is introduced to shock us */
+		return 0;
+		
+		} case CURLINFO_HEADER_OUT: {
+			text = @"=> Send header";
+			break;
+		} case CURLINFO_DATA_OUT: {
+			text = @"=> Send data";
+			break;
+		
+		} case CURLINFO_SSL_DATA_OUT: {
+			text = @"=> Send SSL data";
+			break;
+		} case CURLINFO_HEADER_IN: {
+			text = @"<= Recv header";
+			break;
+		} case CURLINFO_DATA_IN: {
+			text = @"<= Recv data";
+			break;
+		} case CURLINFO_SSL_DATA_IN: {
+			text = @"<= Recv SSL data";
+			break;
+		}
+	}
+	
+	// Print the debug data to the log
+	NSLog(@"[%@ size = %i config = %@] \n %@", text, size, config, debug_data);
+
+	return 0;
+}
+
+// Return a dictionary with the response 
+- (NSDictionary *)_connectToURL:(NSURL *)_url 
+				   withUsername:(NSString *)_username 
+				    andPassword:(NSString *)_password {
+	
+	// The result
+	NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:0];
+		
+	// If not already connected
+	if(![self isConnected]) {
+	
+		// Init the connection
+		curl = curl_easy_init();
+	}
+	
+	// The response for the connection
+	CURLcode response;
+	
+	// The data from the response
+	NSMutableData *data = [NSMutableData data];
+	
+	//
+	// Set the connection options
+	//
+	
+	// Set the  url
+	curl_easy_setopt(curl, CURLOPT_URL, [[_url absoluteString] UTF8String]);
+	
+	// Set the username and password
+	if([_url user] == nil || [_url password] == nil) {
+		
+		// Format the username and password
+		NSString *tmp = [NSString stringWithFormat:@"%@:%@", _username, _password];
+		
+		// Update the curl
+		curl_easy_setopt(curl, CURLOPT_USERPWD, [tmp UTF8String]);
+	}
+	
+	//
+	// Set the callbacks
+	//
+	
+	// The callback to call when there is data to be written
+	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, _curlResponseHandler);
+	
+	// The pointer to pass to the callback
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, data);
+	
+	// If debugging is enabled
+	#ifdef CURLER_DEBUG
+	
+		// Set the debug handler
+		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, _curlDebugHandler);
+		
+		// The data to pass to the handler
+		NSString *debugger = [NSString string];
+		
+		// Set the debug data
+		curl_easy_setopt(curl, CURLOPT_DEBUGDATA, debugger);
+		
+		// the DEBUGFUNCTION has no effect until we enable VERBOSE
+		curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+		
+	#endif
+	
+	// Try to perform the connection
+	response = curl_easy_perform(curl);
+	
+	// The string of the response
+	NSString *str_response = [NSString stringWithFormat:@"%s", curl_easy_strerror(response)];
+	
+	// The error
+	NSError *error = [NSError errorWithDomain:[_url absoluteString]
+									  	 code:response
+								  	 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:str_response, @"CURL_RESPONSE", nil]];
+	
+	// If we can notify the delegate of the error
+	if(response != CURLE_OK && [delegate respondsToSelector:@selector(didReceiveErrorFromHost:withResponse:)]) {
+		
+		// The response should be empty
+		[result setObject:[NSData data] forKey:@"data"];
+		
+		// Then perform the notification
+		[delegate didReceiveErrorFromHost:[_url host] 
+							 withResponse:error];
+	} else {
+		
+		// The data is valid and use it
+		[result setObject:data forKey:@"data"];
+	}
+		
+	// Put the error code in the result
+	[result setObject:error forKey:@"error"];
+	
+	// Return the result
+	return result;
 }
 @end

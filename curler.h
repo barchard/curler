@@ -101,4 +101,11 @@
 // Handler for curl responses
 size_t _curlResponseHandler(void *buffer, size_t size, size_t nmemb, void *stream);
 
+// Handler for curl debugger
+int _curlDebugHandler(CURL *handle, curl_infotype type, char *data, size_t size, void *userp);
+
+// Return a dictionary with the response 
+- (NSDictionary *)_connectToURL:(NSURL *)_url 
+				   withUsername:(NSString *)_username 
+					andPassword:(NSString *)_password;
 @end
