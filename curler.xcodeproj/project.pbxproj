@@ -10,12 +10,33 @@
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		B04131CD10307D260073B7CF /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = B04131CC10307D260073B7CF /* README.txt */; };
-		B04131D010307D540073B7CF /* curler.h in Headers */ = {isa = PBXBuildFile; fileRef = B04131CE10307D540073B7CF /* curler.h */; };
+		B04131D010307D540073B7CF /* curler.h in Headers */ = {isa = PBXBuildFile; fileRef = B04131CE10307D540073B7CF /* curler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B04131D110307D540073B7CF /* curler.m in Sources */ = {isa = PBXBuildFile; fileRef = B04131CF10307D540073B7CF /* curler.m */; };
-		B04131FF10307E770073B7CF /* WFMCURLDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = B04131FE10307E770073B7CF /* WFMCURLDelegateProtocol.h */; };
+		B04131FF10307E770073B7CF /* WFMCURLDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = B04131FE10307E770073B7CF /* WFMCURLDelegateProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B041321610307F410073B7CF /* cMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = B041321510307F410073B7CF /* cMacros.h */; };
 		B041322E10307FEF0073B7CF /* libcurl.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B041322D10307FEF0073B7CF /* libcurl.3.dylib */; };
+		B0EC6ABD1034D8E200BCC1B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0EC6ABC1034D8E200BCC1B1 /* AppKit.framework */; };
+		B0EC6AC11034D8E800BCC1B1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0EC6AC01034D8E800BCC1B1 /* Cocoa.framework */; };
+		B0EC6B801034D92E00BCC1B1 /* curler-demo.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0EC6B7E1034D92E00BCC1B1 /* curler-demo.xib */; };
+		B0EC6B851034DCAF00BCC1B1 /* curler-demo.m in Sources */ = {isa = PBXBuildFile; fileRef = B0EC6B841034DCAF00BCC1B1 /* curler-demo.m */; };
+		B0EC6BBF1034E1D600BCC1B1 /* curler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* curler.framework */; };
+		B0EC6BC81034E21800BCC1B1 /* cMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = B041321510307F410073B7CF /* cMacros.h */; };
+		B0EC6BD51034E26700BCC1B1 /* curler-demo.h in Headers */ = {isa = PBXBuildFile; fileRef = B0EC6B831034DCAF00BCC1B1 /* curler-demo.h */; };
+		B0EC6C2F1034E69800BCC1B1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B0EC6C2E1034E69800BCC1B1 /* main.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B0EC6B9B1034DD7E00BCC1B1 /* Copy Framework Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Copy Framework Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -31,6 +52,14 @@
 		B04131FE10307E770073B7CF /* WFMCURLDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WFMCURLDelegateProtocol.h; path = Protocols/WFMCURLDelegateProtocol.h; sourceTree = "<group>"; };
 		B041321510307F410073B7CF /* cMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cMacros.h; sourceTree = "<group>"; };
 		B041322D10307FEF0073B7CF /* libcurl.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.3.dylib; path = /usr/lib/libcurl.3.dylib; sourceTree = "<absolute>"; };
+		B0EC6AB41034D8D000BCC1B1 /* curler-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "curler-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0EC6AB61034D8D000BCC1B1 /* curler-demo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "curler-demo-Info.plist"; sourceTree = "<group>"; };
+		B0EC6ABC1034D8E200BCC1B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		B0EC6AC01034D8E800BCC1B1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		B0EC6B7F1034D92E00BCC1B1 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = "English.lproj/curler-demo.xib"; sourceTree = "<group>"; };
+		B0EC6B831034DCAF00BCC1B1 /* curler-demo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "curler-demo.h"; sourceTree = "<group>"; };
+		B0EC6B841034DCAF00BCC1B1 /* curler-demo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "curler-demo.m"; sourceTree = "<group>"; };
+		B0EC6C2E1034E69800BCC1B1 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -44,6 +73,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B0EC6AB21034D8D000BCC1B1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0EC6ABD1034D8E200BCC1B1 /* AppKit.framework in Frameworks */,
+				B0EC6AC11034D8E800BCC1B1 /* Cocoa.framework in Frameworks */,
+				B0EC6BBF1034E1D600BCC1B1 /* curler.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -51,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				8DC2EF5B0486A6940098B216 /* curler.framework */,
+				B0EC6AB41034D8D000BCC1B1 /* curler-demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,6 +98,8 @@
 		0867D691FE84028FC02AAC07 /* curler */ = {
 			isa = PBXGroup;
 			children = (
+				B0EC6B831034DCAF00BCC1B1 /* curler-demo.h */,
+				B0EC6B841034DCAF00BCC1B1 /* curler-demo.m */,
 				B041321310307F2E0073B7CF /* Misc */,
 				B04131FD10307E6C0073B7CF /* Protocols */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
@@ -66,6 +108,7 @@
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				B04131CC10307D260073B7CF /* README.txt */,
+				B0EC6AB61034D8D000BCC1B1 /* curler-demo-Info.plist */,
 			);
 			name = curler;
 			sourceTree = "<group>";
@@ -84,6 +127,7 @@
 			children = (
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+				B0EC6B7E1034D92E00BCC1B1 /* curler-demo.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -109,6 +153,8 @@
 		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B0EC6ABC1034D8E200BCC1B1 /* AppKit.framework */,
+				B0EC6AC01034D8E800BCC1B1 /* Cocoa.framework */,
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 				D2F7E79907B2D74100F64583 /* CoreData.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
@@ -119,6 +165,7 @@
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				B0EC6C2E1034E69800BCC1B1 /* main.m */,
 				32DBCF5E0370ADEE00C91783 /* curler_Prefix.pch */,
 			);
 			name = "Other Sources";
@@ -153,6 +200,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B0EC6BE01034E27600BCC1B1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0EC6BD51034E26700BCC1B1 /* curler-demo.h in Headers */,
+				B0EC6BC81034E21800BCC1B1 /* cMacros.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -175,6 +231,25 @@
 			productReference = 8DC2EF5B0486A6940098B216 /* curler.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		B0EC6AB31034D8D000BCC1B1 /* curler-demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B0EC6AB91034D8D100BCC1B1 /* Build configuration list for PBXNativeTarget "curler-demo" */;
+			buildPhases = (
+				B0EC6AB01034D8D000BCC1B1 /* Resources */,
+				B0EC6BE01034E27600BCC1B1 /* Headers */,
+				B0EC6AB11034D8D000BCC1B1 /* Sources */,
+				B0EC6B9B1034DD7E00BCC1B1 /* Copy Framework Files */,
+				B0EC6AB21034D8D000BCC1B1 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "curler-demo";
+			productName = "curler-demo";
+			productReference = B0EC6AB41034D8D000BCC1B1 /* curler-demo.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -189,6 +264,7 @@
 			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* curler */,
+				B0EC6AB31034D8D000BCC1B1 /* curler-demo */,
 			);
 		};
 /* End PBXProject section */
@@ -203,6 +279,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B0EC6AB01034D8D000BCC1B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0EC6B801034D92E00BCC1B1 /* curler-demo.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -211,6 +295,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				B04131D110307D540073B7CF /* curler.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0EC6AB11034D8D000BCC1B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0EC6B851034DCAF00BCC1B1 /* curler-demo.m in Sources */,
+				B0EC6C2F1034E69800BCC1B1 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +316,14 @@
 				089C1667FE841158C02AAC07 /* English */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B0EC6B7E1034D92E00BCC1B1 /* curler-demo.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B0EC6B7F1034D92E00BCC1B1 /* English */,
+			);
+			name = "curler-demo.xib";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -293,6 +394,55 @@
 			};
 			name = Release;
 		};
+		B0EC6AB71034D8D100BCC1B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "curler-demo-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "curler-demo";
+			};
+			name = Debug;
+		};
+		B0EC6AB81034D8D100BCC1B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "curler-demo-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "curler-demo";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -310,6 +460,15 @@
 			buildConfigurations = (
 				1DEB91B208733DA50010E9CD /* Debug */,
 				1DEB91B308733DA50010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B0EC6AB91034D8D100BCC1B1 /* Build configuration list for PBXNativeTarget "curler-demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0EC6AB71034D8D100BCC1B1 /* Debug */,
+				B0EC6AB81034D8D100BCC1B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
