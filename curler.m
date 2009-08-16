@@ -188,7 +188,7 @@
 - (void)setRelativePath:(NSString *)dir {
 	
 	// Construct the new url to access
-	NSURL *newURL = [NSURL URLWithString:dir relativeToURL:url];
+	NSURL *newURL = [NSURL URLWithString:[dir stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:url];
 	
 	// Try to connect to the server
 	NSDictionary *response = [self _connectToURL:newURL 
